@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Happy Birthday, Sis! 🎂💖</title>
+  <meta name="description" content="A cute, interactive birthday wish website for my sister." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Pacifico&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #fff7fb;
+      --card: #ffffff;
+      --accent: #ff7bb2;
+      --accent-2: #8ec5ff;
+      --accent-3: #ffe28a;
+      --ink: #42384d;
+      --muted: #6b6572;
+      --ring: #ffd1e6;
+      --shadow: 0 10px 25px rgba(0,0,0,.08);
+      --radius: 16px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Color Emoji", sans-serif;}
+    .hero{
+      position:relative; display:flex; align-items:center; justify-content:center;
+      min-height: 100svh; padding: 24px; overflow:hidden;
+      background:
+        radial-gradient(1200px 600px at -5% -10%, #ffe3f2 0%, transparent 60%),
+        radial-gradient(900px 500px at 110% 10%, #eaf4ff 0%, transparent 60%),
+        radial-gradient(800px 500px at 50% 110%, #fff4d6 0%, transparent 60%),
+        var(--bg);
+    }
+    .sparkles{
+      position:absolute; inset:0; pointer-events:none; opacity:.4; background-image:
+        radial-gradient(circle at 10% 20%, #ffc1dd 1.5px, transparent 2px),
+        radial-gradient(circle at 80% 10%, #bfe1ff 1.5px, transparent 2px),
+        radial-gradient(circle at 20% 80%, #ffe9a5 1.5px, transparent 2px),
+        radial-gradient(circle at 70% 70%, #c4ffd6 1.5px, transparent 2px);
+      background-size: 120px 120px, 160px 160px, 200px 200px, 180px 180px;
+      animation: float 18s linear infinite;
+    }
+    @keyframes float{
+      0%{transform:translateY(0)}
+      50%{transform:translateY(-12px)}
+      100%{transform:translateY(0)}
+    }
+    .card{
+      width: min(920px, 100%);
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: clamp(18px, 4vw, 28px);
+      position:relative;
+      overflow:hidden;
+      border: 2px solid var(--ring);
+    }
+    .badge{
+      position:absolute; top:14px; right:14px; background: linear-gradient(135deg, var(--accent), #ffa4cc);
+      color:white; padding:6px 12px; border-radius:999px; font-weight:700; font-size:12px; letter-spacing:.4px;
+      box-shadow: 0 4px 14px rgba(255,123,178,.4);
+    }
+    h1{
+      font-family: Pacifico, cursive; font-size: clamp(28px, 8vw, 56px); text-align:center;
+      color:#ff3e85; margin: 6px 0 4px;
+      text-shadow: 0 2px 0 #ffe2ef, 0 6px 18px rgba(255,62,133,.15);
+    }
+    .subtitle{
+      text-align:center; color: var(--muted); margin-bottom: 18px; font-size: clamp(14px, 3.6vw, 18px);
+    }
+    .actions{
+      display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin: 16px 0 6px;
+    }
+    button, .ghost-btn{
+      appearance:none; border:none; cursor:pointer; border-radius: 999px;
+      padding: 12px 16px; font-weight:700; transition:.2s transform ease, .25s box-shadow ease, background .25s;
+      box-shadow: var(--shadow);
+      display:flex; align-items:center; gap:8px;
+    }
+    .btn-primary{ background: linear-gradient(135deg, var(--accent), #ff9cc8); color:#fff;}
+    .btn-blue{ background: linear-gradient(135deg, var(--accent-2), #a8d5ff); color:#0c2b4a;}
+    .btn-yellow{ background: linear-gradient(135deg, var(--accent-3), #fff0b9); color:#5a4716;}
+    .ghost-btn{ background:#fff; border:2px dashed #ffd6ea; color:#ff3e85;}
+    button:active{ transform: scale(.98) }
+    .grid{
+      margin-top:20px; display:grid; grid-template-columns: 1fr; gap:16px;
+    }
+    @media (min-width: 860px){
+      .grid{ grid-template-columns: 1.15fr .85fr; align-items:stretch; }
+    }
+    .panel{
+      background:#fff; border:1px solid #ffe5f1; border-radius: 14px; padding: 14px; box-shadow: var(--shadow);
+    }
+    .panel h2{
+      margin: 2px 0 8px; font-size: 18px; color:#ff3e85;
+    }
+    .flip-wrap{
+      perspective: 1000px; height: 260px; position:relative;
+    }
+    .flip{
+      position:absolute; inset:0; border-radius: 14px; transform-style: preserve-3d; transition: transform .9s cubic-bezier(.2,.7,.2,1);
+      box-shadow: var(--shadow);
+    }
+    .flip.open{ transform: rotateY(180deg) }
+    .face{
+      position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:10px;
+      backface-visibility:hidden; border-radius: 14px; padding: 18px;
+    }
+    .front{
+      background: linear-gradient(160deg, #fff5fb, #eaf6ff);
+      border:2px dashed #ffcfe6;
+    }
+    .back{
+      transform: rotateY(180deg);
+      background: linear-gradient(160deg, #fff8df, #ffe7f3);
+      border:2px solid #ffdcae;
+    }
+    .typewriter{
+      min-height: 60px; font-size: clamp(16px, 3.6vw, 20px); line-height:1.45;
+    }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px;
+      background: #fff; border:1px solid #ffdced; color:#7a5061; font-size: 13px;
+    }
+    .gallery{
+      display:grid; grid-template-columns: repeat(3, 1fr); gap:8px;
+    }
+    .gallery img{
+      width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px; border:2px solid #ffe1f0; cursor:pointer; transition:.25s transform;
+    }
+    .gallery img:hover{ transform: translateY(-3px) }
+    .message-wall{
+      display:flex; flex-direction:column; gap:10px; max-height: 210px; overflow:auto; padding-right:6px;
+    }
+    .note{
+      background:#fff; border:1px solid #ffe3f2; border-left:6px solid #ff8fbe; border-radius:10px; padding:10px 12px; color:#5a4b60;
+    }
+    .input-row{
+      display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;
+    }
+    input[type="text"]{
+      flex:1; min-width: 200px; padding:12px 14px; border-radius:999px; border:2px solid #ffd6ea; outline:none; font-size:14px;
+    }
+    .tiny{ font-size:12px; color:#8a8193; }
+    /* Lightbox */
+    .lightbox{
+      position:fixed; inset:0; background: rgba(20,16,23,.72);
+      display:none; align-items:center; justify-content:center; padding:22px; z-index: 50;
+    }
+    .lightbox.open{ display:flex }
+    .lightbox img{ max-width: 95vw; max-height: 80vh; border-radius:16px; box-shadow: 0 10px 40px rgba(0,0,0,.4); }
+    /* Confetti canvas */
+    #confettiCanvas{ position:fixed; inset:0; pointer-events:none; z-index: 40;}
+    /* Footer */
+    .footer{
+      text-align:center; margin-top:20px; color:#846c77; font-size:13px;
+
+    }
+    .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;}
+  </style>
+</head>
+<body>
+  <canvas id="confettiCanvas" aria-hidden="true"></canvas>
+
+  <main class="hero" role="main">
+    <div class="sparkles" aria-hidden="true"></div>
+
+    <section class="card" aria-label="Birthday Card">
+      <div class="badge" aria-hidden="true">For my favorite✨</div>
+
+      <h1>Happiest Birthday, Akka!🎂💖</h1>
+      <p class="subtitle">You make the world brighter with your own way of living. Tap around, there are surprises!🎁</p>
+
+      <div class="actions">
+        <button id="btnConfetti" class="btn-primary" aria-label="Celebrate with confetti">🎉Blast</button>
+        <button id="btnOpen" class="btn-blue" aria-controls="flip" aria-expanded="false">🎁Open</button>
+        <button id="btnPop" class="btn-yellow">✨Pop Celebrations</button>
+
+        <!-- Music toggle button -->
+        <button id="btnMusic" class="ghost-btn" aria-pressed="false">🎼Music🎶</button>
+
+        <button id="btnShare" class="ghost-btn">Click for Surprise💐</button>
+      </div>
+
+      <div class="grid">
+        <!-- Left: Flip Surprise + Typewriter -->
+        <div class="panel">
+          <h2>💌A little note</h2>
+          <div class="flip-wrap" aria-live="polite">
+            <div id="flip-1" class="flip" role="button" tabindex="0" aria-label="Flip surprise card">
+              <div class="face front">
+                <div class="pill">✨Tap to flip</div>
+                <div class="typewriter" id="typewriter">Dear Pooja Akka, This is for you with all my heart and love...Happy Birthday🌸💗</div>
+              </div>
+              <div class="face back">
+                <div style="font-size: clamp(20px, 6vw, 30px)">💗I’m Really glad and feel lucky to know you.</div>
+                <p style="margin:6px 0 0; color:#714d5b;">May this year bring you everything you dream of — happiness, peace, success, health and moments that make your soul glow.🌈</p>
+              </div>
+            </div>
+          </div>
+          <div class="tiny" style="margin-top:8px;">Tip: Flip the card anytime!</div>
+        </div>
+      <!-- RIGHT SIDE: Flip Surprise + Typewriter -->
+      <div class="panel">
+        <h2>🌸To the Beautiful Soul</h2>
+        <div class="flip-wrap" aria-live="polite">
+            <div id="flip-2" class="flip" role="button" tabindex="0" aria-label="Flip surprise card">
+              <div class="face front">
+                <div class="pill">✨Click💗</div>
+                <div class="typewriter" id="typewriter2">You are a Special Person for me💖</div>
+              </div>
+           <div class="face back">
+        <!-- Replace SRC with your image -->
+        <img src="C:\Users\KABHIGNA\OneDrive - Capgemini\Desktop\images.jpg" class="right-photo" alt="Birthday Photo">
+        <p style="margin-top:6px 0 0; color:#714d5b;">Hope, this will make you smile🌼</p>
+        </div>
+       </div>
+      </div>
+  </div>
+  </div>
+ <div class="footer" >
+        Made with 💖 by your little sister.
+      </div>
+
+    </section>
+  </main>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo preview">
+    <img id="lightboxImg" src="" alt="Enlarged memory" />
+  </div>
+
+  <!-- Birthday Music -->
+  <audio id="bgm" preload="auto" loop>
+    <source src="C:\Users\KABHIGNA\Downloads\nastelbom-happy-birthday-471481.mp3">
+      </audio>
+
+  <script>
+    // ===== Utilities =====
+    const byId = (id) => document.getElementById(id);
+    const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+   // ===== Typewriter Effect (for BOTH elements) =====
+    function typewriter(el, message, speed = 24){
+      if(!el) return;
+      if(prefersReduce){ el.textContent = message; return; }
+      el.textContent = '';
+      let i = 0;
+      (function tick(){
+        if(i <= message.length){
+          el.textContent = message.slice(0, i++);
+          setTimeout(tick, speed);
+        }
+      })();
+    }
+
+    // Messages taken from your original content
+    const message1 = "Dear Pooja Akka, This is for you with all my heart and love...Happy Birthday🌸💗";
+    const message2 = "You are a Special Person for me💖";
+
+    // Start both typewriters
+    typewriter(byId('typewriter'), message1);
+    
+    typewriter(byId('typewriter2'), message2);
+    
+
+  
+// ===== Flip Cards (both) =====
+const btnOpen = document.getElementById('btnOpen');
+
+// reusable function that attaches flip‑on‑click + keyboard
+function attachFlipHandlers(flipEl) {
+  function toggleFlip() {
+    flipEl.classList.toggle('open');
+  }
+
+  flipEl.addEventListener('click', toggleFlip);
+  flipEl.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleFlip();
+    }
+  });
+
+  return toggleFlip;
+
+}
+
+const flip1 = document.getElementById('flip-1');
+const flip2 = document.getElementById('flip-2');
+
+// attach handlers so each card can flip individually
+const toggleFlip1 = attachFlipHandlers(flip1);
+const toggleFlip2 = attachFlipHandlers(flip2);
+
+// ===== OPEN BUTTON: flip BOTH cards =====
+btnOpen.addEventListener('click', () => {
+  flip1.classList.toggle('open');
+  flip2.classList.toggle('open');
+
+  // accessibility: mark expanded if BOTH are open
+  const expanded = flip1.classList.contains('open') && flip2.classList.contains('open');
+  btnOpen.setAttribute('aria-expanded', expanded);
+});
+
+
+    
+    // ===== Background Music Toggle (Button-driven) =====
+    const bgm = byId('bgm');
+    const btnMusic = byId('btnMusic');
+    let musicOn = false;
+
+    async function playMusic() {
+      try {
+        await bgm.play();
+        musicOn = true;
+        btnMusic.textContent = '🔊 Music: On';
+        btnMusic.setAttribute('aria-pressed','true');
+      } catch (e) {
+        // If blocked before any gesture, give a gentle hint
+        btnMusic.textContent = '👆 Tap to enable music';
+        setTimeout(()=> btnMusic.textContent = '🔇 Music: Off', 1500);
+      }
+    }
+
+    async function toggleMusic(){
+      if(!musicOn){
+        await playMusic();
+      } else {
+        bgm.pause();
+        musicOn = false;
+        btnMusic.textContent = '🔇 Music: Off';
+        btnMusic.setAttribute('aria-pressed','false');
+      }
+    }
+    btnMusic.addEventListener('click', toggleMusic);
+
+    // OPTIONAL: Warm-up muted (keeps UX smooth on mobile). Comment out if you prefer strict button-only start.
+    (function warmAutoplay(){
+      bgm.muted = true;
+      bgm.play().catch(()=>{});
+      const enableSound = () => { bgm.muted = false; window.removeEventListener('pointerdown', enableSound); };
+      window.addEventListener('pointerdown', enableSound, { once:true });
+    })();
+
+   
+
+    // ===== Confetti Engine (no external libs) =====
+    const canvas = byId('confettiCanvas');
+    const ctx = canvas.getContext('2d');
+    let W, H; function resize(){ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; }
+    resize(); window.addEventListener('resize', resize);
+
+    const TAU = Math.PI * 2;
+    let pieces = [];
+
+    function random(min, max){ return Math.random()*(max-min)+min; }
+    function confettiBurst({count=120, spread=50, startY=0.15, velocity=8, colors=['#ff7bb2','#8ec5ff','#ffe28a','#c4ffd6','#ffa4cc'], shapes=['rect','circle']}={}){
+      const originX = W/2, originY = H*startY;
+      for(let i=0;i<count;i++){
+        const angle = random(-spread, spread) * Math.PI/180 + (Math.PI/2);
+        theSpeed = random(velocity*0.6, velocity*1.2);
+        pieces.push({
+          x: originX, y: originY,
+          vx: Math.cos(angle)*theSpeed, vy: Math.sin(angle)*theSpeed,
+          g: random(0.18, 0.34),
+          w: random(6, 10), h: random(8, 14),
+          r: random(0, TAU),
+          vr: random(-0.2, 0.2),
+          color: colors[(Math.random()*colors.length)|0],
+          shape: shapes[(Math.random()*shapes.length)|0],
+          life: random(90, 160),
+          alpha: 1
+        });
+      }
+      loop();
+    }
+    function confettiPopCorners(){
+      const corners = [{x:0,y:0},{x:W,y:0},{x:0,y:H},{x:W,y:H}];
+      corners.forEach(c=>{
+        for(let i=0;i<60;i++){
+          const angle = Math.atan2(H/2 - c.y, W/2 - c.x) + random(-0.6,0.6);
+          const speed = random(6,11);
+          pieces.push({
+            x:c.x, y:c.y, vx:Math.cos(angle)*speed, vy:Math.sin(angle)*speed,
+            g: random(0.16, 0.3), w: random(5,9), h: random(5,12),
+            r: random(0,TAU), vr: random(-0.3,0.3),
+            color: ['#ff9cc8','#a8d5ff','#fff0b9','#b7f7cf'][Math.floor(Math.random()*4)],
+            shape: Math.random()<0.8?'rect':'circle',
+            life: random(80,140), alpha:1
+          });
+        }
+      });
+      loop();
+    }
+    function confettiRain(){
+      const start = performance.now();
+      function add(){
+        if(performance.now() - start > 1500) return;
+        for(let i=0;i<24;i++){
+          pieces.push({
+            x: random(0,W), y: -10, vx: random(-0.5,0.5), vy: random(4,7),
+            g: random(0.14,0.22), w: random(5,9), h: random(6,12),
+            r: random(0,TAU), vr: random(-0.2,0.2),
+            color: ['#ff7bb2','#8ec5ff','#ffe28a','#c4ffd6'][Math.floor(Math.random()*4)],
+            shape: Math.random()<0.5?'rect':'circle',
+            life: random(120,200), alpha:1
+          });
+        }
+        loop(); requestAnimationFrame(add);
+      }
+      add();
+    }
+
+    let animating = false;
+    function loop(){
+      if(animating) return;
+      animating = true;
+      function frame(){
+        ctx.clearRect(0,0,W,H);
+        let alive = 0;
+        for(let i=0;i<pieces.length;i++){
+          const p = pieces[i];
+          p.vy += p.g; p.x += p.vx; p.y += p.vy; p.r += p.vr; p.life -= 1;
+          if(p.life < 30) p.alpha = Math.max(0, p.life/30);
+          ctx.globalAlpha = p.alpha;
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          if(p.shape === 'rect'){
+            ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r);
+            ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+            ctx.restore();
+          } else {
+            ctx.arc(p.x, p.y, p.w/2, 0, TAU); ctx.fill();
+          }
+          ctx.globalAlpha = 1;
+          if(p.y < H + 40 && p.x > -40 && p.x < W + 40 && p.alpha > 0) alive++;
+        }
+        pieces = pieces.filter(p => p.y < H + 40 && p.x > -40 && p.x < W + 40 && p.alpha > 0);
+        if(alive>0){ requestAnimationFrame(frame); }
+        else { animating = false; }
+      }
+      requestAnimationFrame(frame);
+    }
+
+    // Buttons wire-up
+    const btnConfetti = byId('btnConfetti');
+    const btnPop = byId('btnPop');
+    btnConfetti.addEventListener('click', ()=>{
+      confettiBurst({count: 180, spread: 70, startY: 0.25, velocity: 9});
+      setTimeout(confettiRain, 350);
+    });
+    btnPop.addEventListener('click', confettiPopCorners);
+
+    // Auto gentle welcome confetti (respect reduced motion)
+    if(!prefersReduce){
+      setTimeout(()=> confettiBurst({count: 90, spread: 55, startY: 0.2, velocity: 8}), 600);
+    }
+    function celebrate(mode='burst'){
+      if(mode==='mini'){ confettiBurst({count: 60, spread: 55, startY: 0.1, velocity: 7}); }
+      else confettiBurst({});
+    }
+
+    // Accessibility: focus ring on keyboard users
+    let usingKeyboard = false;
+    window.addEventListener('keydown', ()=> usingKeyboard = true, {once:true});
+    document.body.addEventListener('focusin', (e)=>{
+      if(usingKeyboard && e.target instanceof HTMLElement) e.target.style.outline = '2px solid #ff8fbe';
+    });
+    document.body.addEventListener('focusout', (e)=>{
+      if(e.target instanceof HTMLElement) e.target.style.outline = 'none';
+    });
+  </script>
+</body>
+</html>
