@@ -554,7 +554,7 @@
   >
     <!-- Balloons and Confetti will be added by JavaScript -->
 
-<div class="candle-badge">🎂Click on Candles to blow them✨</div>
+<div class="candle-badge">🎂Click on all Candles to blow them✨</div>
 
     <!-- Birthday Cake -->
     <div class="cake-container" bis_skin_checked="1">
@@ -693,12 +693,11 @@
     <script>
       // Global variables
       let candlesBlown = 0;
-      const totalCandles = 1;
+      const totalCandles = 0;
       let allCandlesBlown = false;
 
       // Initialize the page when it loads
       document.addEventListener("DOMContentLoaded", function () {
-        createCandles();
         createBalloons();
         createConfetti();
         createDecorations();
@@ -739,27 +738,7 @@
           }
         });
       });
-
-      // Create candles for the cake
-      function createCandles() {
-        const candleContainer = document.getElementById("candleContainer");
-
-        for (let i = 0; i < totalCandles; i++) {
-          const candle = document.createElement("div");
-          candle.className = "candle";
-
-          const flame = document.createElement("div");
-          flame.className = "flame";
-
-          const smoke = document.createElement("div");
-          smoke.className = "smoke";
-
-          candle.appendChild(flame);
-          candle.appendChild(smoke);
-          candleContainer.appendChild(candle);
-        }
-      }
-
+      
       // Create floating balloons
       function createBalloons() {
         const colors = ["#ff66b3", "#66ccff", "#ff9966", "#99ff66", "#cc99ff"];
@@ -835,7 +814,7 @@
         const unblownCandles = Array.from(
           document.querySelectorAll(".candle:not(.blown)")
         );
-        if (unblownCandles.length > 2) {
+        if (unblownCandles.length > 0) {
           const randomCandle =
             unblownCandles[Math.floor(Math.random() * unblownCandles.length)];
           blowOutCandle.call(randomCandle);
