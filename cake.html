@@ -696,11 +696,15 @@
       const totalCandles = 0;
       let allCandlesBlown = false;
 
+
       // Initialize the page when it loads
       document.addEventListener("DOMContentLoaded", function () {
         createBalloons();
         createConfetti();
         createDecorations();
+
+         const candleElements = document.querySelectorAll(".candle");
+          totalCandles = candleElements.length;   // AUTO-DETECT CANDLES
 
         // Add event listeners for candle interaction
         document.querySelectorAll(".candle").forEach((candle) => {
