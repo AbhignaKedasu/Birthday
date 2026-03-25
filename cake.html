@@ -835,7 +835,7 @@
         const unblownCandles = Array.from(
           document.querySelectorAll(".candle:not(.blown)")
         );
-        if (unblownCandles.length > 5) {
+        if (unblownCandles.length > 2) {
           const randomCandle =
             unblownCandles[Math.floor(Math.random() * unblownCandles.length)];
           blowOutCandle.call(randomCandle);
