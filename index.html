@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Happy Birthday</title>
-  <meta name="description" content="A cute, interactive birthday wish website" />
+  <title>Happy Birthday, Sis! 🎂💖</title>
+  <meta name="description" content="A cute, interactive birthday wish website for my sister." />
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -60,8 +60,8 @@
       border: 2px solid var(--ring);
     }
     .badge{
-      position:absolute; top:4px; right:4px; background: linear-gradient(135deg, var(--accent), #ffa4cc);
-      color:white; padding:6px 12px; border-radius:800px; font-weight:700; font-size:10px; letter-spacing:.4px;
+      position:absolute; top:14px; right:14px; background: linear-gradient(135deg, var(--accent), #ffa4cc);
+      color:white; padding:6px 12px; border-radius:999px; font-weight:700; font-size:12px; letter-spacing:.4px;
       box-shadow: 0 4px 14px rgba(255,123,178,.4);
     }
     h1{
@@ -109,10 +109,6 @@
     .face{
       position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:10px;
       backface-visibility:hidden; border-radius: 14px; padding: 18px;
-    }
-    .right-photo {
-          display: block;
-          margin-top: 16px; 
     }
     .front{
       background: linear-gradient(160deg, #fff5fb, #eaf6ff);
@@ -167,6 +163,7 @@
     .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;}
   </style>
 </head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <body>
   <canvas id="confettiCanvas" aria-hidden="true"></canvas>
 
@@ -186,8 +183,7 @@
 
         <!-- Music toggle button -->
         <button id="btnMusic" class="ghost-btn" aria-pressed="false">🎼Music🎶</button>
-
-        <button id="btnShare" class="ghost-btn">Click for Surprise💐</button>
+        <button class="btn-primary" class="next-button" onclick="goToNextPage()">Click for Surprise💐</button>
       </div>
 
       <div class="grid">
@@ -219,7 +215,7 @@
               </div>
            <div class="face back">
         <!-- Replace SRC with your image -->
-        <img src="Birthday.jpg" class="right-photo" alt="Birthday Photo">
+        <img src="birthday.jpg" class="right-photo" alt="Birthday Photo">
         <p style="margin-top:6px 0 0; color:#714d5b;">Hope, this will make you smile🌼</p>
         </div>
        </div>
@@ -350,6 +346,24 @@ btnOpen.addEventListener('click', () => {
       const enableSound = () => { bgm.muted = false; window.removeEventListener('pointerdown', enableSound); };
       window.addEventListener('pointerdown', enableSound, { once:true });
     })();
+
+   // Function to go to next page
+        function goToNextPage() {
+            // Add a bounce effect before navigating
+            gsap.to('.next-button', {
+                scale: 1.2,
+                yoyo: true,
+                repeat: 1,
+                duration: 0.3,
+                onComplete: () => {
+                    // Change this URL to your next page
+                    window.location.href = "surprise.html";
+                    
+                    // For demonstration, we'll just show an alert
+                    
+                }
+            });
+        }
 
    
 
